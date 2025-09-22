@@ -1,0 +1,13 @@
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* App layout container */
+.app {
+    background-color: transparent; /* let page/theme color show through */
+    display: flex;              /* lays out sidebar + content */
+    height: 100svh;            /* lock to viewport; internal areas scroll */
+    width: 100%;
+}

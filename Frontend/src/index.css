@@ -1,0 +1,61 @@
+/* Global baseline for consistent, responsive defaults */
+
+/* 1) Box-sizing: include padding/border in element width calculations */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2) Remove default margin that can cause inconsistent spacing */
+* {
+  margin: 0;
+}
+
+/* 3) Base document settings */
+:root { color-scheme: light; }
+html {
+  -webkit-text-size-adjust: 100%;
+}
+html, body {
+  height: 100%;
+}
+body {
+  min-height: 100svh;
+  background: #e9feff; /* light cyan */
+  color: #0f172a;      /* dark slate text */
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Roboto', 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* 4) Media should scale down with their container */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 5) Make long words wrap to avoid horizontal scroll */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: anywhere;
+}
+
+/* 6) Form elements inherit typography */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* 7) Keep link color consistent with surrounding text by default */
+a { color: inherit; }
+
+/* 8) Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
