@@ -46,8 +46,8 @@ function ChatWindow({ onToggleSidebar }) {
       body: JSON.stringify({ message: prompt, threadId: currThreadId }),
     };
     try {
-      // ✅ Use .env API_URL
-      const response = await fetch(`${API_URL}/chat`, options);
+      // ✅ Use .env API_URL with correct /api/chat endpoint
+      const response = await fetch(`${API_URL}/api/chat`, options);
       const res = await response.json();
       setReply(res.reply);
     } catch (err) {

@@ -16,6 +16,9 @@ function Sidebar({ isOpen: controlledIsOpen, onClose, onOpen }) {
     setPrevChats,
   } = useContext(MyContext);
 
+  // ✅ Load API base URL from .env
+  const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, ''); // Remove trailing slash
+
   // ---- Hybrid control: controlled if prop provided; otherwise internal state ----
   const isControlled = typeof controlledIsOpen === "boolean";
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
@@ -54,7 +57,7 @@ function Sidebar({ isOpen: controlledIsOpen, onClose, onOpen }) {
 
   const getAllThreads = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/thread");
+      const response = await fetch(`${API_URL}/api/thread`);
       const res = await response.json();
       const filteredData = res.map((thread) => ({
         threadId: thread.threadId,
@@ -94,7 +97,7 @@ function Sidebar({ isOpen: controlledIsOpen, onClose, onOpen }) {
     setCurrThreadId(newThreadId);
     try {
       const response = await fetch(
-        `http://localhost:8080/api/thread/${newThreadId}`
+        `${API_URL}/api/thread/${newThreadId}`
       );
       const res = await response.json();
       setPrevChats(res);
@@ -111,7 +114,7 @@ function Sidebar({ isOpen: controlledIsOpen, onClose, onOpen }) {
   const deleteThread = async (threadId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/thread/${threadId}`,
+        `${API_URL}/api/thread/${threadId}`,
         { method: "DELETE" }
       );
       const res = await response.json();
