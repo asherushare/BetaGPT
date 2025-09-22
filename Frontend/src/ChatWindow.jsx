@@ -24,6 +24,9 @@ function ChatWindow({ onToggleSidebar }) {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const chatBodyRef = useRef(null);
 
+  // ✅ Load API base URL from .env
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const getReply = async () => {
     // Enforce guest limit: 5 messages max without login
     if (!user) {
@@ -43,11 +46,12 @@ function ChatWindow({ onToggleSidebar }) {
       body: JSON.stringify({ message: prompt, threadId: currThreadId }),
     };
     try {
-      const response = await fetch("http://localhost:8080/api/chat", options);
+      // ✅ Use .env API_URL
+      const response = await fetch(`${API_URL}/chat`, options);
       const res = await response.json();
       setReply(res.reply);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching reply:", err);
     }
     setLoading(false);
   };
@@ -81,7 +85,8 @@ function ChatWindow({ onToggleSidebar }) {
     };
 
     window.addEventListener("chat-scroll-to-bottom", scrollToBottom);
-    return () => window.removeEventListener("chat-scroll-to-bottom", scrollToBottom);
+    return () =>
+      window.removeEventListener("chat-scroll-to-bottom", scrollToBottom);
   }, []);
 
   useEffect(() => {
@@ -113,9 +118,7 @@ function ChatWindow({ onToggleSidebar }) {
           <span className="bar" />
         </button>
 
-        <span className="brand">
-          BetaGPT
-        </span>
+        <span className="brand">BetaGPT</span>
 
         {user ? (
           <div className="userProfile profileChip">
@@ -140,7 +143,10 @@ function ChatWindow({ onToggleSidebar }) {
               onClick={() => openSignIn()}
               aria-label="Login"
             >
-              <i className="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+              <i
+                className="fa-solid fa-right-to-bracket"
+                aria-hidden="true"
+              ></i>
               <span className="loginText">Login</span>
             </button>
           </div>
@@ -151,7 +157,12 @@ function ChatWindow({ onToggleSidebar }) {
       <div className="chatBody" ref={chatBodyRef}>
         <Chat />
         {loading && (
-          <div className="loaderWrap" role="status" aria-live="polite" aria-label="Loading">
+          <div
+            className="loaderWrap"
+            role="status"
+            aria-live="polite"
+            aria-label="Loading"
+          >
             <RingLoader color="#0ea5e9" size={54} speedMultiplier={0.9} />
           </div>
         )}
@@ -168,9 +179,14 @@ function ChatWindow({ onToggleSidebar }) {
             onClick={(e) => e.stopPropagation()}
           >
             <h3 id="login-modal-title">Login required</h3>
-            <p>You’ve reached the free limit of 5 messages. Please log in to continue chatting.</p>
+            <p>
+              You’ve reached the free limit of 5 messages. Please log in to
+              continue chatting.
+            </p>
             <div className="modalActions">
-              <button className="btn" onClick={() => setShowLoginModal(false)}>Cancel</button>
+              <button className="btn" onClick={() => setShowLoginModal(false)}>
+                Cancel
+              </button>
               <button
                 className="btnPrimary"
                 onClick={() => {
@@ -212,5 +228,3 @@ function ChatWindow({ onToggleSidebar }) {
 }
 
 export default ChatWindow;
-
-
